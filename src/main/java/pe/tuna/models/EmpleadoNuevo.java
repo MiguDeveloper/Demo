@@ -26,6 +26,12 @@ public class EmpleadoNuevo {
         this.apellidos = apellidos;
         this.fecha_nacimiento = fecha_nacimiento;
     }
+    public EmpleadoNuevo(int id, String nombre, String apellidos, Date fecha_nacimiento) {
+        this.id =  id;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.fecha_nacimiento = fecha_nacimiento;
+    }
 
     public int getId() {
         return id;
