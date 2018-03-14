@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+// @XmlRootElement Define la raiz de un determinado elemento
 @XmlRootElement(name = "empleado")
 public class Empleado {
     private long id;
@@ -25,6 +26,7 @@ public class Empleado {
         this.citas = new ArrayList<Citas>();
     }
 
+    // @XmlElement Elementos dentro del elemento XML
     @XmlElement
     public long getId() {
         return id;

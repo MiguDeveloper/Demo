@@ -2,10 +2,12 @@ package pe.tuna.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import pe.tuna.models.Citas;
 import pe.tuna.models.Empleado;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,7 +45,8 @@ public class EmpleadoController {
     }
 
     @GetMapping("/empleado/{idE}/cita/{idC}")
-    public Citas getCitaEmpleado(@PathVariable Long idE, @PathVariable Long idC) {
+    public Citas getCitaEmpleado(@PathVariable Long idE, @PathVariable Long idC, HttpServletRequest request)
+            throws NoHandlerFoundException {
         Citas cita = null;
         if (idE > 0 && idE <= lstEmpleados.size()) {
             List<Citas> lstCitas = lstEmpleados.get((int) (idE - 1)).getCitas();
@@ -56,7 +59,11 @@ public class EmpleadoController {
             }
         }
 
-        return cita;
+        if (cita != null) {
+            return cita;
+        } else {
+            throw new NoHandlerFoundException("GET", request.getRequestURL().toString(), null);
+        }
 
     }
 
@@ -76,12 +83,19 @@ public class EmpleadoController {
         lstEmpleados.add(new Empleado(6L, "Jose", "Quispe", new Date()));
     }
 
+    // Le asociamos al evento 404 la informacion de la razon
+    @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "La cita no existe")
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public void citaInexistente() {
+
+    }
+
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     //@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "El empleado no existe")
-    private class EmpleadoNotFoundException extends RuntimeException{
+    private class EmpleadoNotFoundException extends RuntimeException {
         private static final long serialVersionUID = -53323244242424242L;
 
-        public EmpleadoNotFoundException(Long id){
+        public EmpleadoNotFoundException(Long id) {
             super(String.format("El empleado %d no existe.", id));
         }
     }
