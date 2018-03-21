@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="container">
-    <p>Esta es el jsp  admin tiene que salir el mensaje de admin: ${saludo}</p>
+    <p>Esta es el jsp  admin : ${saludo}</p>
 </div>
 </body>
 </html>
