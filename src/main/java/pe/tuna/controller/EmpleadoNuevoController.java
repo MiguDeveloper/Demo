@@ -49,7 +49,7 @@ public class EmpleadoNuevoController {
     }
 
     // Actualizamos un empleado mediante la anotacion put
-    @PutMapping("/empleado/")
+    @PutMapping("/empleado")
     public ResponseEntity<?> updateEmpleado(RequestEntity<EmpleadoNuevo> reqEmpleado) {
         if (reqEmpleado.getBody() == null) {
             return new ResponseEntity(new CustomErrorType("Formato de peticion incorrecta"), HttpStatus.BAD_REQUEST);
@@ -66,6 +66,19 @@ public class EmpleadoNuevoController {
         } else {
             return new ResponseEntity(new CustomErrorType("El empleado a modificar no existe"), HttpStatus.NOT_FOUND);
         }
+    }
+
+    @DeleteMapping("/empleado/{id}")
+    public ResponseEntity<?> deleteEmpleado(@PathVariable int id) {
+
+        Optional<EmpleadoNuevo> empleadoNuevo = empleadoNuevoRepository.findById(id);
+        if (empleadoNuevo.isPresent()) {
+            empleadoNuevoRepository.deleteById(id);
+            return new ResponseEntity<>(empleadoNuevo, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(new CustomErrorType("El empleado a eliminar no existe"), HttpStatus.NOT_FOUND);
+        }
+
     }
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
