@@ -9,7 +9,7 @@ public class HolaController {
 
     @GetMapping("/")
     public String home(Model model){
-        model.addAttribute("saludo","Hola este es un saludos desde el controlador");
+        model.addAttribute("saludo","Hola este es un saludos desde el controlador principal");
         return "hola/hola";
     }
 }
